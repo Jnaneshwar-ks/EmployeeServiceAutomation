@@ -16,14 +16,15 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Install Power Platform CLI
+      - name: Install Power Platform Tools
         uses: microsoft/powerplatform-actions/actions-install@v1
 
       - name: Pack solution
-        run: |
-          pac solution pack `
-            --folder "${{ github.workspace }}" `
-            --zipfile "${{ github.workspace }}\EmployeeServiceAutomation_CI.zip"
+        uses: microsoft/powerplatform-actions/pack-solution@v1
+        with:
+          solution-folder: .
+          solution-file: EmployeeServiceAutomation_CI.zip
+          solution-type: Unmanaged
 
       - name: Upload solution artifact
         uses: actions/upload-artifact@v4
