@@ -1,0 +1,40 @@
+name: Power Platform CD
+
+on:
+  workflow_run:
+    workflows:
+      - Power Platform CI
+    types:
+      - completed
+
+jobs:
+  deploy-solution:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: windows-latest
+
+    permissions:
+      actions: read
+
+    steps:
+      - name: Download CI artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: EmployeeServiceAutomation
+          path: ./artifact
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Show downloaded artifact
+        shell: pwsh
+        run: |
+          Get-ChildItem -Path ./artifact -Recurse
+
+      - name: Deploy solution
+        uses: microsoft/powerplatform-actions/import-solution@v1
+        with:
+          environment-url: ${{ secrets.POWER_PLATFORM_ENVIRONMENT_URL }}
+          app-id: ${{ secrets.POWER_PLATFORM_CLIENT_ID }}
+          client-secret: ${{ secrets.POWER_PLATFORM_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.POWER_PLATFORM_TENANT_ID }}
+          solution-file: ./artifact/EmployeeServiceAutomation_CI.zip
+          publish-changes: true
