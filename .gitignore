@@ -1,0 +1,7 @@
+.vscode/
+*.user
+*.userosscache
+*.suo
+bin/
+obj/
+packages/

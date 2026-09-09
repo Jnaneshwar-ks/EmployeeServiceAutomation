@@ -1,0 +1,14 @@
+<environmentvariabledefinition schemaname="jna_AppEnvironment">
+  <defaultvalue>DEV</defaultvalue>
+  <description default="Identifies the environment in which the Employee Service Automation solution is deployed.">
+    <label description="Identifies the environment in which the Employee Service Automation solution is deployed." languagecode="1033" />
+  </description>
+  <displayname default="App Environment">
+    <label description="App Environment" languagecode="1033" />
+  </displayname>
+  <introducedversion>1.0.0.0</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <secretstore>0</secretstore>
+  <type>100000000</type>
+</environmentvariabledefinition>
