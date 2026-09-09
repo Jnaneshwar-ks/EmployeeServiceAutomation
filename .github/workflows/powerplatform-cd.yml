@@ -1,15 +1,15 @@
 name: Power Platform CD
 
 on:
-  workflow_run:
-    workflows:
-      - Power Platform CI
-    types:
-      - completed
+  workflow_dispatch:
+    inputs:
+      ci_run_id:
+        description: "Successful GitHub Actions CI run ID"
+        required: true
+        type: string
 
 jobs:
   deploy-solution:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: windows-latest
 
     permissions:
@@ -21,7 +21,7 @@ jobs:
         with:
           name: EmployeeServiceAutomation
           path: ./artifact
-          run-id: ${{ github.event.workflow_run.id }}
+          run-id: ${{ inputs.ci_run_id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Show downloaded artifact
